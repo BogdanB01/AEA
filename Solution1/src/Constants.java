@@ -2,7 +2,7 @@ public class Constants {
 
     public static int NUMBER_NODES;
 
-    public static final String FILE = "data4.CLQ";
+    public static final String FILE = "DSJC500_5.clq";
 
     /* The number of iterations */
     public static final int ANNEALING_ITERATIONS = 5000;

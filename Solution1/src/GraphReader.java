@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.StringTokenizer;
 
 public class GraphReader {
@@ -9,9 +10,8 @@ public class GraphReader {
     public GraphReader() {
     }
 
-    public static Graph readGraph() throws Exception
-    {
-        BufferedReader reader = new BufferedReader(new FileReader(new File(Constants.FILE)));
+    public static Graph readGraph(String filePath) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(new File(filePath)));
         String line = reader.readLine();
         StringTokenizer token = new StringTokenizer(line, " ");
         token.nextToken();

@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -5,14 +6,13 @@ import java.util.List;
 
 public class MaxClique
 {
-    public static void main(String [] args) throws Exception
-    {
+    public static int run(int iterations, int tolerance, String filePath) throws IOException {
         /* The global best clique found so far */
         LinkedHashSet gBest = new LinkedHashSet();
 
         System.out.println("Reading Graph...");
         /* Read the graph from Constants.FILE */
-        Graph graph = GraphReader.readGraph();
+        Graph graph = GraphReader.readGraph(filePath);
         System.out.println("Computing Clique...");
 
         long start = System.currentTimeMillis();
@@ -37,14 +37,14 @@ public class MaxClique
         int prevBest = clique.clique.size();
         int count = 0;
         int [] restarts = new int[Constants.NUMBER_NODES];
-        for(int i=0; i<Constants.ANNEALING_ITERATIONS; i++)
+        for(int i=0; i < iterations; i++)
         {
             //System.out.println(gBest.size());
 
             if(prevBest == gBest.size())
             {
                 count++;
-                if(count > Constants.TOLERANCE)
+                if(count > tolerance)
                 {
                     randomRestart(clique, graph, restarts);
                     count = 0;
@@ -136,7 +136,9 @@ public class MaxClique
         gBest.addAll(clique.clique);
 
         System.out.println("Maximum Clique Size Found: " + gBest.size());
-        System.out.println("Vertices in the Clique:");
+
+        return gBest.size();
+        /*System.out.println("Vertices in the Clique:");
         for(Iterator it = gBest.iterator(); it.hasNext();)
         {
             int vertex = ((Integer)it.next()).intValue();
@@ -144,7 +146,15 @@ public class MaxClique
         }
 
         long end = System.currentTimeMillis();
-        System.out.println("\n\nDuration: " + (end-start) + " milliseconds");
+        System.out.println("\n\nDuration: " + (end-start) + " milliseconds");*/
+    }
+
+    public static void main(String [] args) {
+        try {
+            run(Constants.ANNEALING_ITERATIONS, Constants.TOLERANCE, Constants.FILE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /*
